@@ -24,16 +24,16 @@ export class ProductListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    //this.randomAdUrl = this.getRandomAd();
+    this.randomAdUrl = this.getRandomAd();
   }
 
   addToCart(product) {
-    console.log('Added to cart: ' + product.face);
+    //console.log('Added to cart: ' + product.face);
     this.addedToCart.emit(product);
   }
 
   onScroll(percentageScrolled) {
-    console.log('Scrollposition: ' + percentageScrolled + '%');
+    //console.log('Scrollposition: ' + percentageScrolled + '%');
     if (percentageScrolled < 75) {
       this.scrolledToBottom = false;
     }

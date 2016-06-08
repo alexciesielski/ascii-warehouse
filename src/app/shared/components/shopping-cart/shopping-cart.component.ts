@@ -8,7 +8,7 @@ import { Product } from '../../product.model';
   styleUrls: ['shopping-cart.component.css']
 })
 export class ShoppingCartComponent implements OnInit {
-  @Input('shoppingCart') shoppingCart: Product[] = [];
+  @Input('products') shoppingCart: Product[] = [];
 
   constructor() { }
 

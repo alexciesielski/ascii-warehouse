@@ -21,10 +21,6 @@ export class ProductService {
     private _http: Http
   ) { }
 
-  addProductToShoppingCart(product: Product) {
-    this.shoppingCart.push(product);
-  }
-
   getProducts(sort?: string, limit?: number, skip?: number): Observable<Product[]> {
     let query = '?sort=' + sort || ProductService.SORT_OPTIONS[0];
 
@@ -45,7 +41,9 @@ export class ProductService {
   }
 
   private extractData(res: Response) {
-    //let rawJson = '[' + res.text() + ']';
+    // Since incoming data is new-line delimited JSON objects
+    // convert first into JSON array by wrapping with '[]'
+    // and replacing newline with commas (except for the last)
     let rawJsonObjects = res.text().split('\n');
 
     let rawJson = '[';
@@ -62,7 +60,7 @@ export class ProductService {
     rawJson += ']';
 
     let body = JSON.parse(rawJson);
-    console.log(body);
+    console.log('got: ' + body.length + ' objects');
     return body || {};
   }
 

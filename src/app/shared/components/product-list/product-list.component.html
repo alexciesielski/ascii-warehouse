@@ -1,35 +1,38 @@
 <div class="container-fluid" myScrollspy (scrolled)="onScroll($event)">
-  
+
   <!--<div [ngSwitch]="isLoading">-->
 
   <!--<div *ngSwitchWhen="false" class="container-fluid">-->
-  <div class="container-fluid">
+  <div *ngFor="let product of products; let i = index">
 
-    <div class="row">
-      <div *ngFor="let product of products; let i = index">
+    <div class="clearfix" *ngIf="i != 0 && i % 4 == 0"></div>
 
-        <div class="clearfix" *ngIf="i != 0 && i % 4 == 0"></div>
+    <app-product [size]="product.size">
+      <product-date>{{ product.date | formatTimestamp }}</product-date>
+      <product-face>{{ product.face }}</product-face>
+      <product-price>$ {{product.price / 100}}</product-price>
+      <product-buttons>
+        <a class="btn btn-block btn-primary" (click)="addToCart(product)">Add to cart</a>
+      </product-buttons>
+    </app-product>
 
-        <app-product [size]="product.size">
-          <product-date>{{ product.date | formatTimestamp }}</product-date>
-          <product-face>{{ product.face }}</product-face>
-          <product-price>$ {{product.price / 100}}</product-price>
-          <div class="buttons">
-            <a class="btn btn-primary" (click)="addToCart(product)">Add to cart</a>
-          </div>
-        </app-product>
-
+    <div class="row" *ngIf="i !=0 && i % 20==0">
+      <div class="clearfix"></div>
+      
+      <div class="col-sm-6">
+        <div class="card">
+          <img class="card-img" [src]="randomAdUrl " />
+        </div>
       </div>
     </div>
-    <!--
+
+  </div>
+  <!--
     <div *ngSwitchWhen="true">
       <i class="text-primary fa fa-spin fa-circle-o-notch fa-2x " aria-hidden="true"></i>
     </div>
 -->
 
-    <div class="col-sm-6 card" *ngIf="i !=0 && i % 21==0 ">
-      <!--<img class="card-img" [src]="randomAdUrl " />-->
-    </div>
 
-  </div>
+
 </div>

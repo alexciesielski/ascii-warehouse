@@ -19,6 +19,8 @@ export class XteamAppComponent {
   products: Product[] = [];
   productsCount: number = 0;
 
+  shoppingCart: Product[] = [];
+
   sortOptions: string[] = [];
   selectedSortOption: string;
 
@@ -36,33 +38,26 @@ export class XteamAppComponent {
     this.getProducts();
   }
 
+  onAddedToCart(product) {
+    console.log('Added to cart', product.face);
+    this.shoppingCart.push(product);
+  }
+
   applySort() {
     console.log(this.selectedSortOption);
-    //this.products = this._productsService.getProducts(this.selectedSortOption);
-    this.products.push(new Product());
-    this._changeDetectorRef.detectChanges();
+    this.getProducts();
   }
 
   getProducts() {
     let sort = this.selectedSortOption;
     let limit = 20;
     let skip = this.products.length;
-    console.log('getProducts()');
 
     this.isLoading = true;
 
     this._productsService.getProducts(sort, limit, skip).subscribe(products => {
-      console.log('this.products length', this.products.length);
-      console.log('products length', products.length);
-      let newProducts = Array.prototype.concat(this.products, products);
-      console.log('products concat length', newProducts.length);
-
-      this.products = newProducts;
-      console.log('this.products length', this.products.length);
-      //this._changeDetectorRef.detectChanges();
-
-
-
+      // A new reference has to be set to trigger Angular 2's ChangeDetection
+      this.products = Array.prototype.concat(this.products, products);
       this.isLoading = false;
     });
   }
@@ -72,7 +67,6 @@ export class XteamAppComponent {
   }
 
   loadMoreProducts() {
-    console.log('load more products');
     this.getProducts();
   }
 }

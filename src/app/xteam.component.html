@@ -35,18 +35,15 @@
 
   <section class="products">
 
-    <div class="row center-block">
-      <button class="btn btn-secondary">Load more</button>
+    <app-product-list [products]="products" (preload)="loadMoreProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
+
+    <div class="container-fluid text-xs-center" *ngIf="!isLoading">
+      <button class="btn btn-secondary" (click)="loadMoreProducts()">Load more</button>
     </div>
-
-    <app-product-list [products]="products" (preload)="loadMoreProducts()"></app-product-list>
-
     <app-loading *ngIf="isLoading"></app-loading>
 
   </section>
 </div>
 
-<nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
-  <a class="navbar-brand">Shopping cart</a>
-  <app-shopping-cart></app-shopping-cart>
-</nav>
+
+<app-shopping-cart [products]="shoppingCart"></app-shopping-cart>

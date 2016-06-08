@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: center;
 
-    border-width: 5px;
-    border-style: groove;
-    border-color: lightgray;
+    border-width: 1px solid lightgray;
+    border-radius: .5rem;
+    box-shadow: 5px 10px 25px 0 rgba(0,0,0,0.3);
 }
