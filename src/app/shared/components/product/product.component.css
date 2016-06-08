@@ -1,0 +1,14 @@
+.product {
+    margin: 2rem 0;
+    padding: 0 2rem;
+    white-space: nowrap;
+
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border-width: 5px;
+    border-style: groove;
+    border-color: lightgray;
+}

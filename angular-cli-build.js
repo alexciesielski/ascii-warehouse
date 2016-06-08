@@ -12,7 +12,9 @@ module.exports = function(defaults) {
       'reflect-metadata/**/*.+(js|js.map)',
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
-      'moment/moment.js'
+      'moment/moment.js',
+      'ng2-scrollspy/**/*.+(js|ts)',
+      'bootstrap/dist/css/bootstrap.css'
     ]
   });
 };

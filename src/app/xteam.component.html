@@ -1,4 +1,14 @@
-<div class="container">
+<nav class="navbar navbar-fixed-top navbar-light bg-faded">
+  <a class="navbar-brand" href="#">{{title}}</a>
+  <div class="nav navbar-nav">
+    <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+    <a class="nav-item nav-link" href="#">Features</a>
+    <a class="nav-item nav-link" href="#">Pricing</a>
+    <a class="nav-item nav-link" href="#">About</a>
+  </div>
+</nav>
+
+<div class="container-fluid" style="margin: 80px 0">
   <header>
     <h1>{{title}}</h1>
 
@@ -8,11 +18,35 @@
     <!-- TODO: uncomment
     <p>But first, a word from our sponsors:</p> <script>document.write('<img class="ad" src="/ad/?r=' + Math.floor(Math.random()*1000) + '"/>');</script>
   -->
-    <p>But first, a word from our sponsors:</p> <img class="ad" [src]="randomAdURL" />
+    <p>But first, a word from our sponsors:</p>
+    <app-ad [src]="randomAdURL"></app-ad>
 
   </header>
 
+  <section class="options-bar">
+    <hr/>
+    <p>Sort by:</p>
+    <select [(ngModel)]="selectedSortOption">
+        <option *ngFor="let sortOption of sortOptions" [value]="sortOption">{{sortOption}}</option>
+      </select>
+    <button (click)="applySort()">Apply</button>
+    <hr/>
+  </section>
+
   <section class="products">
-    <app-product-list></app-product-list>
+
+    <div class="row center-block">
+      <button class="btn btn-secondary">Load more</button>
+    </div>
+
+    <app-product-list [products]="products" (preload)="loadMoreProducts()"></app-product-list>
+
+    <app-loading *ngIf="isLoading"></app-loading>
+
   </section>
 </div>
+
+<nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
+  <a class="navbar-brand">Shopping cart</a>
+  <app-shopping-cart></app-shopping-cart>
+</nav>

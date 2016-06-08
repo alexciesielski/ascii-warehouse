@@ -9,25 +9,25 @@ import {
 import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ProductListComponent } from './product-list.component';
+import { AdComponent } from './ad.component';
 
-describe('Component: ProductList', () => {
+describe('Component: Ad', () => {
   let builder: TestComponentBuilder;
 
-  beforeEachProviders(() => [ProductListComponent]);
+  beforeEachProviders(() => [AdComponent]);
   beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
     builder = tcb;
   }));
 
-  it('should inject the component', inject([ProductListComponent],
-      (component: ProductListComponent) => {
+  it('should inject the component', inject([AdComponent],
+      (component: AdComponent) => {
     expect(component).toBeTruthy();
   }));
 
   it('should create the component', inject([], () => {
-    return builder.createAsync(ProductListComponentTestController)
+    return builder.createAsync(AdComponentTestController)
       .then((fixture: ComponentFixture<any>) => {
-        let query = fixture.debugElement.query(By.directive(ProductListComponent));
+        let query = fixture.debugElement.query(By.directive(AdComponent));
         expect(query).toBeTruthy();
         expect(query.componentInstance).toBeTruthy();
       });
@@ -37,10 +37,10 @@ describe('Component: ProductList', () => {
 @Component({
   selector: 'test',
   template: `
-    <app-product-list></app-product-list>
+    <app-ad></app-ad>
   `,
-  directives: [ProductListComponent]
+  directives: [AdComponent]
 })
-class ProductListComponentTestController {
+class AdComponentTestController {
 }
 

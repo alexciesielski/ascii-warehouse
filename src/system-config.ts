@@ -3,14 +3,15 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  'moment': 'vendor/moment/moment.js'
+  'moment': 'vendor/moment/moment.js',
+  'ng2-scrollspy': 'vendor/ng2-scrollspy/index.ts'
 };
 
 /** User packages configuration. */
 const packages: any = {
   'moment': {
     format: 'cjs'
-  }
+  },
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,10 @@ const barrels: string[] = [
   'app',
   'app/shared',
   'app/product-list',
+  'app/ad',
+  'app/product',
+  'app/shopping-cart',
+  'app/loading',
   /** @cli-barrel */
 ];
 

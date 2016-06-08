@@ -12,21 +12,29 @@ export class ProductService {
     'id'
   ];
 
-  private baseURL = 'http://localhost:8000/api/';
-  private productsAPI = this.baseURL + 'products';
+  private API = 'http://localhost:8000/api/';
+  private productsUrl = this.API + 'products';
+
+  private shoppingCart: Product[] = [];
 
   constructor(
     private _http: Http
   ) { }
 
+  addProductToShoppingCart(product: Product) {
+    this.shoppingCart.push(product);
+  }
+
   getProducts(sort?: string, limit?: number, skip?: number): Observable<Product[]> {
     let query = '?sort=' + sort || ProductService.SORT_OPTIONS[0];
 
     if (limit) {
-      query += '&limit' + limit;
-      query += '&skip' + skip || 0;
+      query += '&limit=' + limit;
+      if (skip) {
+        query += '&skip=' + skip;
+      }
     }
-    return this.get(this.productsAPI + query);
+    return this.get(this.productsUrl + query);
   }
 
   private get(url: string) {

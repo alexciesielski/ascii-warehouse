@@ -1,0 +1,6 @@
+@media (min-width: 62em) {
+    .ad {
+        margin: .75rem auto;
+        border-radius: .3rem;
+    }
+}
