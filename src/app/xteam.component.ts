@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Ad, Product, AdComponent, ProductListComponent, ShoppingCartComponent, ProductService, LoadingComponent } from './shared/index';
 import { Observable } from 'rxjs/Observable';
 
@@ -8,10 +8,11 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'xteam.component.html',
   styleUrls: ['xteam.component.css'],
   providers: [ProductService],
-  directives: [ProductListComponent, AdComponent, ShoppingCartComponent, LoadingComponent],
-  changeDetection: ChangeDetectionStrategy.Default
+  directives: [ProductListComponent, AdComponent, ShoppingCartComponent, LoadingComponent]
 })
 export class XteamAppComponent {
+  @ViewChild('shoppingCart') shoppingCart: ShoppingCartComponent;
+
   title = 'Discount Ascii Warehouse';
   randomAd = this.createAd();
   isLoading = false;
@@ -20,15 +21,11 @@ export class XteamAppComponent {
   items: any[] = [];
   productsCount: number = 0;
 
-  shoppingCart: Product[] = [];
-
   sortOptions: string[] = [];
   selectedSortOption: string;
 
   constructor(
-    private _productsService: ProductService,
-    private _zone: NgZone,
-    private _changeDetectorRef: ChangeDetectorRef
+    private _productsService: ProductService
   ) { }
 
   ngOnInit() {
@@ -39,9 +36,13 @@ export class XteamAppComponent {
     this.getProducts(20);
   }
 
+  toggleShoppingCartVisibility() {
+    this.shoppingCart.toggleVisibility();
+  }
+
   onAddedToCart(product) {
     console.log('Added to cart', product.face);
-    this.shoppingCart.push(product);
+    this.shoppingCart.addProduct(product);
   }
 
   applySort() {

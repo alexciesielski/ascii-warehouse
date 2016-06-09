@@ -13,11 +13,11 @@ export class ShoppingCartComponent implements OnInit, DoCheck {
   @Input('products') shoppingCart: Product[] = [];
   previousShoppingCartCount: number = 0;
   total: number = 0;
+  isHidden = true;
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngDoCheck() {
     if (this.shoppingCart.length > this.previousShoppingCartCount) {
@@ -26,19 +26,35 @@ export class ShoppingCartComponent implements OnInit, DoCheck {
     }
   }
 
-  calculateTotal() {
+  public addProduct(product) {
+    this.shoppingCart.push(product);
+    this.calculateTotal();
+  }
+
+  public getProductCount() {
+    return this.shoppingCart.length;
+  }
+
+  public removeProduct(product) {
+    console.log('remove product ' + product.face);
+    let index = this.shoppingCart.indexOf(product);
+
+    if (index > -1) {
+      this.shoppingCart.splice(index, 1);
+      this.calculateTotal();
+    }
+  }
+
+  public toggleVisibility() {
+    this.isHidden = !this.isHidden;
+  }
+
+  private calculateTotal() {
     let total = 0;
     for (let i = 0; i < this.shoppingCart.length; i++) {
       total += this.shoppingCart[i].price;
     }
     this.total = total;
-  }
-
-  removeProduct(product) {
-    console.log('remove product ' + product.face);
-    let index = this.shoppingCart.indexOf(product);
-
-    if (index > -1) this.shoppingCart.splice(index, 1);
   }
 
 }

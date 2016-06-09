@@ -3,7 +3,7 @@
     right: 1rem;
     top: 4.5rem;
     min-width: 10rem;
-    max-width: 20rem;
+    max-width: 25rem;
     min-height: 2rem;
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid lightgray;
@@ -14,11 +14,14 @@
     button {
         padding: .25rem;
     }
-}
-
-.shopping-cart-item {
-    padding: .5rem;
-    margin: .5rem;
-    border-radius: .3rem;
-    border: 1px solid lightgray;
+    .shopping-cart-item {
+        padding: .5rem;
+        margin: .5rem;
+        border-radius: .3rem;
+        border: 1px solid lightgray;
+    }
+    .shopping-cart-total {
+        width: 100%;
+        margin: .25rem .5rem 0;
+    }
 }

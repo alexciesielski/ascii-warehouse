@@ -1,12 +1,14 @@
 <nav class="navbar navbar-fixed-top navbar-dark bg-primary">
   <a class="navbar-brand" href="#">{{title}}</a>
   <div class="nav navbar-nav pull-right">
-    <a class="nav-item nav-link" href="#">
+    <a class="nav-item nav-link" (click)="toggleShoppingCartVisibility()">
       <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
-      <span class="label label-default" *ngIf="shoppingCart.length > 0"> {{ shoppingCart.length }}</span>
+      <span class="label label-default" *ngIf="shoppingCart.getProductCount() > 0"> {{ shoppingCart.getProductCount() }}</span>
     </a>
   </div>
 </nav>
+
+<app-shopping-cart #shoppingCart></app-shopping-cart>
 
 <div class="container-fluid" style="margin: 80px 0; padding: 0">
   <div class="container">
@@ -50,8 +52,4 @@
 
     </section>
   </div>
-</div>
-
-<div class="bottom-bar">
-  <app-shopping-cart [products]="shoppingCart"></app-shopping-cart>
 </div>
