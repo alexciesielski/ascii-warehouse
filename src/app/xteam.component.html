@@ -26,28 +26,40 @@
   </div>
 
   <section class="form-inline bg-faded options-bar">
-    <div class="form-group">
-      <label for="sortSelect">Sort</label>
-      <select class="form-control" id="sortSelect" [(ngModel)]="selectedSortOption">
+    <label for="sortSelect">Sort</label>
+    <select class="form-control" id="sortSelect" [(ngModel)]="selectedSortOption">
         <option *ngFor="let sortOption of sortOptions" [value]="sortOption">{{sortOption}}</option>
       </select>
-    </div>
     <button class="btn btn-secondary" (click)="applySort()">Apply</button>
   </section>
 
   <div class="container">
     <section class="products">
 
+      <!-- Product List with Ads at every 20th position -->
       <app-product-list [items]="items" (preload)="loadMoreProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
 
-      <div class="container-fluid text-xs-center" *ngIf="!isLoading && !isEndOfCatalogue">
+      <!-- Load more products button -->
+      <div class="container-fluid text-xs-center" *ngIf="!isLoading && !isEndOfCatalogue && !error">
         <button class="btn btn-secondary" (click)="loadMoreProducts()">Load more</button>
       </div>
 
+      <!-- Loading animation -->
       <app-loading *ngIf="isLoading"></app-loading>
 
+      <!-- End of catalogue -->
       <div class="container-fluid text-xs-center" *ngIf="isEndOfCatalogue">
         ~ end of catalogue ~
+      </div>
+
+      <!-- Error + Retry -->
+      <div class="alert alert-danger text-xs-center" role="alert" *ngIf="error">
+        <div>
+          <strong>{{ error }}</strong>
+        </div>
+        <div>
+          <button class="btn btn-secondary" (click)="loadMoreProducts()">Retry</button>
+        </div>
       </div>
 
     </section>

@@ -14,7 +14,8 @@ export class XteamAppComponent {
   @ViewChild('shoppingCart') shoppingCart: ShoppingCartComponent;
 
   title = 'Discount Ascii Warehouse';
-  randomAd = this.createAd();
+  error: any;
+
   isLoading = false;
   isEndOfCatalogue = false;
 
@@ -57,19 +58,24 @@ export class XteamAppComponent {
 
     this.isLoading = true;
 
-    this._productsService.getProducts(sort, limit, skip).subscribe(products => {
-      let productsFetchedCount = products.length;
+    this._productsService.getProducts(sort, limit, skip).subscribe(
+      products => {
+        let productsFetchedCount = products.length;
 
-      if (productsFetchedCount > 0) {
-        this.addProductsToItems(products);
-        this.insertAdsIntoItems();
-        console.log('current products count:', this.productsCount);
-      } else {
-        console.log('end of catalogue');
-        this.isEndOfCatalogue = true;
-      }
-      this.isLoading = false;
-    });
+        if (productsFetchedCount > 0) {
+          this.addProductsToItems(products);
+          this.insertAdsIntoItems();
+          console.log('current products count:', this.productsCount);
+        } else {
+          console.log('end of catalogue');
+          this.isEndOfCatalogue = true;
+        }
+        this.isLoading = false;
+      },
+      error => {
+        this.isLoading = false;
+        this.error = 'Error connecting to server.';
+      });
   }
 
   insertAdsIntoItems() {
