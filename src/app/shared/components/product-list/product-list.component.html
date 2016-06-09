@@ -7,7 +7,7 @@
       <app-product [size]="item.size" *ngSwitchWhen="true">
         <product-date>{{ item.date | formatTimestamp }}</product-date>
         <product-face>{{ item.face }}</product-face>
-        <product-price>{{ item.price | formatCurrency:"PLN" }}</product-price>
+        <product-price>{{ item.price | formatCurrency:"$" }}</product-price>
         <product-buttons>
           <a class="btn btn-block btn-primary" (click)="addToCart(item)">Add to cart</a>
         </product-buttons>

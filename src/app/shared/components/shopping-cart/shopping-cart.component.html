@@ -3,6 +3,9 @@
     <button type="button" class="close" aria-label="Close" (click)="removeProduct(product)">
       <span aria-hidden="true">&times;</span>
     </button>
-    <span>{{product.face}}</span>
+    <span>{{ product.face }}</span>
+  </div>
+  <div class="shopping-cart-total">
+    <span>{{ total | formatCurrency:"$" }}</span>
   </div>
 </div>

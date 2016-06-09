@@ -1,0 +1,24 @@
+.shopping-cart-container {
+    position: fixed;
+    right: 1rem;
+    top: 4.5rem;
+    min-width: 10rem;
+    max-width: 20rem;
+    min-height: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid lightgray;
+    border-radius: .3rem;
+    padding: .5rem;
+    display: flex;
+    flex-flow: row wrap;
+    button {
+        padding: .25rem;
+    }
+}
+
+.shopping-cart-item {
+    padding: .5rem;
+    margin: .5rem;
+    border-radius: .3rem;
+    border: 1px solid lightgray;
+}
