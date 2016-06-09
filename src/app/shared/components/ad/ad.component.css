@@ -1,6 +1,14 @@
+.ad {
+    max-width: 25rem;
+    text-align: center !important;
+
+    box-shadow: 5px 10px 25px 0 rgba(0,0,0,0.3);
+}
+/*
 @media (min-width: 62em) {
     .ad {
         margin: .75rem auto;
         border-radius: .3rem;
     }
 }
+*/

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
-import { Product, AdComponent, ProductListComponent, ShoppingCartComponent, ProductService, LoadingComponent } from './shared/index';
+import { Ad, Product, AdComponent, ProductListComponent, ShoppingCartComponent, ProductService, LoadingComponent } from './shared/index';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -13,10 +13,11 @@ import { Observable } from 'rxjs/Observable';
 })
 export class XteamAppComponent {
   title = 'Discount Ascii Warehouse';
-  randomAdURL = this.getRandomAd();
+  randomAd = this.createAd();
   isLoading = false;
+  isEndOfCatalogue = false;
 
-  products: Product[] = [];
+  items: any[] = [];
   productsCount: number = 0;
 
   shoppingCart: Product[] = [];
@@ -35,7 +36,7 @@ export class XteamAppComponent {
     this.sortOptions = ProductService.SORT_OPTIONS;
     this.selectedSortOption = this.sortOptions[0];
 
-    this.getProducts();
+    this.getProducts(20);
   }
 
   onAddedToCart(product) {
@@ -45,28 +46,59 @@ export class XteamAppComponent {
 
   applySort() {
     console.log(this.selectedSortOption);
-    this.getProducts();
+    this.getProducts(20);
   }
 
-  getProducts() {
+  getProducts(productsToFetch: number) {
     let sort = this.selectedSortOption;
-    let limit = 20;
-    let skip = this.products.length;
+    let limit = productsToFetch || 50;
+    let skip = this.productsCount;
 
     this.isLoading = true;
 
     this._productsService.getProducts(sort, limit, skip).subscribe(products => {
-      // A new reference has to be set to trigger Angular 2's ChangeDetection
-      this.products = Array.prototype.concat(this.products, products);
+      let productsFetchedCount = products.length;
+
+      if (productsFetchedCount > 0) {
+        this.addProductsToItems(products);
+        this.insertAdsIntoItems();
+        console.log('current products count:', this.productsCount);
+      } else {
+        console.log('end of catalogue');
+        this.isEndOfCatalogue = true;
+      }
       this.isLoading = false;
     });
   }
 
-  getRandomAd() {
-    return 'http://localhost:8000/ad/?r=' + Math.floor(Math.random() * 1000);
+  insertAdsIntoItems() {
+    let multiplesOfTwenty = Math.floor(this.productsCount / 20);
+    console.log('products count', this.productsCount);
+    console.log('multiplesOfTwenty', multiplesOfTwenty);
+    for (let i = 0; i < multiplesOfTwenty; i++) {
+      // Insert Ad at every 20th position if not already there
+      let index = (i + 1) * 20;
+      if (!this.isAd(this.items[index])) {
+        this.items.splice(index, 0, this.createAd());
+        console.log('inserted ad at ' + index);
+      }
+    }
+  }
+
+  addProductsToItems(products: Product[]) {
+    this.productsCount += products.length;
+    this.items = Array.prototype.concat(this.items, products);
+  }
+
+  createAd() {
+    return { url: 'http://localhost:8000/ad/?r=' + Math.floor(Math.random() * 1000) };
   }
 
   loadMoreProducts() {
-    this.getProducts();
+    this.getProducts(50);
+  }
+
+  isAd(item: Object) {
+    return (item && item.hasOwnProperty('url'));
   }
 }

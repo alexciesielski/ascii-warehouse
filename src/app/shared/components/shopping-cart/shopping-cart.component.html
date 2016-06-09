@@ -1,5 +1,8 @@
-<div class="container-fluid">
-  <span *ngFor="let product of shoppingCart">
-    {{product.face}}
-  </span>
+<div class="shopping-cart-container">
+  <div class="shopping-cart-item" *ngFor="let product of shoppingCart">
+    <button type="button" class="close" aria-label="Close" (click)="removeProduct(product)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <span>{{product.face}}</span>
+  </div>
 </div>

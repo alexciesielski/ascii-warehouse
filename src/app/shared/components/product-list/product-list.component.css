@@ -1,0 +1,13 @@
+.flex-grid {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.flex-grid-item {
+    flex: 0 1 auto;
+    margin: 1rem 0;
+    padding: 0 1rem;
+    white-space: nowrap;
+    align-self: center;
+}

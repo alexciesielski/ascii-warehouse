@@ -15,4 +15,11 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit() {
   }
 
+  removeProduct(product) {
+    console.log('remove product ' + product.face);
+    let index = this.shoppingCart.indexOf(product);
+
+    if (index > -1) this.shoppingCart.splice(index, 1);
+  }
+
 }

@@ -1,0 +1,31 @@
+nav {
+    box-shadow: 5px 0 15px 3px rgba(0, 0, 0, 0.2);
+}
+
+.options-bar {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.options-bar .form-group {
+    padding: 0 1rem;
+}
+
+.fa {
+    font-size: 1.5rem;
+}
+
+.label {
+    font-size: 1.1rem;
+}
+
+.fa, .label {
+    margin: 0 0.5rem;
+}
+
+.navbar a:hover {
+    color: darken(white, 5%);
+}

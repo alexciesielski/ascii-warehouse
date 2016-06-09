@@ -1,49 +1,57 @@
-<nav class="navbar navbar-fixed-top navbar-light bg-faded">
+<nav class="navbar navbar-fixed-top navbar-dark bg-primary">
   <a class="navbar-brand" href="#">{{title}}</a>
-  <div class="nav navbar-nav">
-    <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-    <a class="nav-item nav-link" href="#">Features</a>
-    <a class="nav-item nav-link" href="#">Pricing</a>
-    <a class="nav-item nav-link" href="#">About</a>
+  <div class="nav navbar-nav pull-right">
+    <a class="nav-item nav-link" href="#">
+      <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
+      <span class="label label-default" *ngIf="shoppingCart.length > 0"> {{ shoppingCart.length }}</span>
+    </a>
   </div>
 </nav>
 
-<div class="container-fluid" style="margin: 80px 0">
-  <header>
-    <h1>{{title}}</h1>
+<div class="container-fluid" style="margin: 80px 0; padding: 0">
+  <div class="container">
+    <header>
+      <h1>{{title}}</h1>
 
-    <p>Here you're sure to find a bargain on some of the finest ascii available to purchase. Be sure to peruse our selection
-      of ascii faces in an exciting range of sizes and prices.</p>
-
-    <!-- TODO: uncomment
-    <p>But first, a word from our sponsors:</p> <script>document.write('<img class="ad" src="/ad/?r=' + Math.floor(Math.random()*1000) + '"/>');</script>
-  -->
+      <p>Here you're sure to find a bargain on some of the finest ascii available to purchase. Be sure to peruse our selection
+        of ascii faces in an exciting range of sizes and prices.</p>
+      <!--
     <p>But first, a word from our sponsors:</p>
-    <app-ad [src]="randomAdURL"></app-ad>
+    <app-ad [src]="randomAd.url"></app-ad>
+    -->
 
-  </header>
+    </header>
+  </div>
 
-  <section class="options-bar">
-    <hr/>
-    <p>Sort by:</p>
-    <select [(ngModel)]="selectedSortOption">
+  <section class="form-inline bg-faded options-bar">
+    <div class="form-group">
+      <label for="sortSelect">Sort</label>
+      <select class="form-control" id="sortSelect" [(ngModel)]="selectedSortOption">
         <option *ngFor="let sortOption of sortOptions" [value]="sortOption">{{sortOption}}</option>
       </select>
-    <button (click)="applySort()">Apply</button>
-    <hr/>
-  </section>
-
-  <section class="products">
-
-    <app-product-list [products]="products" (preload)="loadMoreProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
-
-    <div class="container-fluid text-xs-center" *ngIf="!isLoading">
-      <button class="btn btn-secondary" (click)="loadMoreProducts()">Load more</button>
     </div>
-    <app-loading *ngIf="isLoading"></app-loading>
-
+    <button class="btn btn-secondary" (click)="applySort()">Apply</button>
   </section>
+
+  <div class="container">
+    <section class="products">
+
+      <app-product-list [items]="items" (preload)="loadMoreProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
+
+      <div class="container-fluid text-xs-center" *ngIf="!isLoading && !isEndOfCatalogue">
+        <button class="btn btn-secondary" (click)="loadMoreProducts()">Load more</button>
+      </div>
+
+      <app-loading *ngIf="isLoading"></app-loading>
+
+      <div class="container-fluid text-xs-center" *ngIf="isEndOfCatalogue">
+        ~ end of catalogue ~
+      </div>
+
+    </section>
+  </div>
 </div>
 
-
-<app-shopping-cart [products]="shoppingCart"></app-shopping-cart>
+<div class="bottom-bar">
+  <app-shopping-cart [products]="shoppingCart"></app-shopping-cart>
+</div>

@@ -1,38 +1,22 @@
-<div class="container-fluid" myScrollspy (scrolled)="onScroll($event)">
+<div class="container" #listContainer myScrollspy (scrolled)="onScroll($event)">
 
-  <!--<div [ngSwitch]="isLoading">-->
+  <div class="flex-grid">
+    <div class="flex-grid-item text-xs-center" *ngFor="let item of items; let i = index" [ngSwitch]="isProduct(item)">
 
-  <!--<div *ngSwitchWhen="false" class="container-fluid">-->
-  <div *ngFor="let product of products; let i = index">
+      <!-- Product -->
+      <app-product [size]="item.size" *ngSwitchWhen="true">
+        <product-date>{{ item.date | formatTimestamp }}</product-date>
+        <product-face>{{ item.face }}</product-face>
+        <product-price>{{ item.price | formatCurrency:"PLN" }}</product-price>
+        <product-buttons>
+          <a class="btn btn-block btn-primary" (click)="addToCart(item)">Add to cart</a>
+        </product-buttons>
+      </app-product>
 
-    <div class="clearfix" *ngIf="i != 0 && i % 4 == 0"></div>
+      <!-- Ad -->
+      <app-ad [src]="item.url" *ngSwitchWhen="false">
+      </app-ad>
 
-    <app-product [size]="product.size">
-      <product-date>{{ product.date | formatTimestamp }}</product-date>
-      <product-face>{{ product.face }}</product-face>
-      <product-price>$ {{product.price / 100}}</product-price>
-      <product-buttons>
-        <a class="btn btn-block btn-primary" (click)="addToCart(product)">Add to cart</a>
-      </product-buttons>
-    </app-product>
-
-    <div class="row" *ngIf="i !=0 && i % 20==0">
-      <div class="clearfix"></div>
-      
-      <div class="col-sm-6">
-        <div class="card">
-          <img class="card-img" [src]="randomAdUrl " />
-        </div>
-      </div>
     </div>
-
   </div>
-  <!--
-    <div *ngSwitchWhen="true">
-      <i class="text-primary fa fa-spin fa-circle-o-notch fa-2x " aria-hidden="true"></i>
-    </div>
--->
-
-
-
 </div>
