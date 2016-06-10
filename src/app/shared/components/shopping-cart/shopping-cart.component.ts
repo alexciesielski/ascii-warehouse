@@ -45,6 +45,14 @@ export class ShoppingCartComponent implements OnInit, DoCheck {
     }
   }
 
+  public show() {
+    this.isHidden = false;
+  }
+
+  public hide() {
+    this.isHidden = true;
+  }
+
   public toggleVisibility() {
     this.isHidden = !this.isHidden;
   }

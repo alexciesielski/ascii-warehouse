@@ -1,9 +1,18 @@
 <div class="shopping-cart-container" [hidden]="isHidden">
-  <div class="shopping-cart-item" *ngFor="let product of shoppingCart">
-    <button type="button" class="close" aria-label="Close" (click)="removeProduct(product)">
+  <div class="shopping-cart-header">
+    <h3>Your products:</h3>
+    <button type="button" class="close" aria-label="Close" (click)="hide()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <span>{{ product.face }}</span>
+    <hr/>
+  </div>
+  <div class="shopping-cart-list">
+    <div class="shopping-cart-item" *ngFor="let product of shoppingCart">
+      <button type="button" class="close" aria-label="Close" (click)="removeProduct(product)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+      <span [style.font-size]="product.size + 'px'">{{ product.face }}</span>
+    </div>
   </div>
 
   <div class="shopping-cart-total">

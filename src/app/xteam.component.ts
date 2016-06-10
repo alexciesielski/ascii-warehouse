@@ -48,6 +48,8 @@ export class XteamAppComponent {
 
   applySort() {
     console.log(this.selectedSortOption);
+    this.items = [];
+    this.productsCount = 0;
     this.getProducts(20);
   }
 
@@ -62,10 +64,16 @@ export class XteamAppComponent {
       products => {
         let productsFetchedCount = products.length;
 
-        if (productsFetchedCount > 0) {
+        if (productsFetchedCount === limit) {
           this.addProductsToItems(products);
           this.insertAdsIntoItems();
           console.log('current products count:', this.productsCount);
+        }
+        else if (productsFetchedCount < limit) {
+          this.addProductsToItems(products);
+          this.insertAdsIntoItems();
+          console.log('current products count:', this.productsCount);
+          this.isEndOfCatalogue = true;
         } else {
           console.log('end of catalogue');
           this.isEndOfCatalogue = true;

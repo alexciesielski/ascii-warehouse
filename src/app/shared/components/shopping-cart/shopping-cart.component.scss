@@ -1,4 +1,5 @@
 .shopping-cart-container {
+    z-index: 10;
     position: fixed;
     right: 1rem;
     top: 4.5rem;
@@ -9,8 +10,26 @@
     border: 1px solid lightgray;
     border-radius: .3rem;
     padding: .5rem;
-    display: flex;
-    flex-flow: row wrap;
+    
+    .shopping-cart-header {
+        width: 100%;
+        margin: .25rem .5rem 0;
+        button {
+            position: absolute;
+            top: .75rem;
+            right: .75rem;
+        }
+        h3 {
+            margin-right: 2rem;
+        }
+    }
+    .shopping-cart-list {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        overflow-y: auto;
+        max-height: 60vh;
+    }
     button {
         padding: .25rem;
     }
