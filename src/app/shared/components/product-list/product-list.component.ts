@@ -20,7 +20,7 @@ export class ProductListComponent {
   @Output('preload') preload: EventEmitter<any> = new EventEmitter<any>();
 
   scrolledToBottom: boolean = false;
-  preloadAtPercentage: number = 90;
+  preloadAtScrollPercentage: number = 90;
 
   constructor() { }
 
@@ -32,11 +32,11 @@ export class ProductListComponent {
   onScroll(percentageScrolled) {
     //console.log('Scrollposition: ' + percentageScrolled + '%');
 
-    if (percentageScrolled < this.preloadAtPercentage) {
+    if (percentageScrolled < this.preloadAtScrollPercentage) {
       this.scrolledToBottom = false;
     }
 
-    if (this.scrolledToBottom === false && percentageScrolled > this.preloadAtPercentage) {
+    if (this.scrolledToBottom === false && percentageScrolled > this.preloadAtScrollPercentage) {
       this.scrolledToBottom = true;
       this.preload.emit(true);
     }

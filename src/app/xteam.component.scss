@@ -2,16 +2,31 @@ nav {
     box-shadow: 5px 0 15px 3px rgba(0, 0, 0, 0.2);
 }
 
+.navbar a:hover {
+    color: darken(white, 5%);
+    cursor: pointer;
+}
+
 .options-bar {
     padding: 1rem 2rem;
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
     align-items: center;
+    .form-group {
+        padding: 0 1rem;
+    }
+    label {
+        margin-bottom: 0;
+        margin-right: .5rem;
+    }
+    .form-control {
+        margin-right: .75rem;
+    }
 }
 
-.options-bar .form-group {
-    padding: 0 1rem;
+.alert {
+    margin: 2rem 1rem;
 }
 
 .fa {
@@ -24,9 +39,4 @@ nav {
 
 .fa, .label {
     margin: 0 0.5rem;
-}
-
-.navbar a:hover {
-    color: darken(white, 5%);
-    cursor: pointer;
 }

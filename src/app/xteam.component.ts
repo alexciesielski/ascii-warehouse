@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Ad, Product, AdComponent, ProductListComponent, ShoppingCartComponent, ProductService, LoadingComponent } from './shared/index';
+import { Ad, Product, AdComponent, ProductListComponent, ShoppingCartComponent, ProductService } from './shared/index';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'xteam.component.html',
   styleUrls: ['xteam.component.css'],
   providers: [ProductService],
-  directives: [ProductListComponent, AdComponent, ShoppingCartComponent, LoadingComponent]
+  directives: [ProductListComponent, AdComponent, ShoppingCartComponent]
 })
 export class XteamAppComponent {
   @ViewChild('shoppingCart') shoppingCart: ShoppingCartComponent;
@@ -19,6 +19,7 @@ export class XteamAppComponent {
   isLoading = false;
   isEndOfCatalogue = false;
 
+  // list of products and ads (at every 20th position)
   items: any[] = [];
   productsCount: number = 0;
 
@@ -37,6 +38,11 @@ export class XteamAppComponent {
     this.getProducts(20);
   }
 
+  resetItems() {
+    this.items = [];
+    this.productsCount = 0;
+  }
+
   toggleShoppingCartVisibility() {
     this.shoppingCart.toggleVisibility();
   }
@@ -48,50 +54,14 @@ export class XteamAppComponent {
 
   applySort() {
     console.log(this.selectedSortOption);
-    this.items = [];
-    this.productsCount = 0;
+    this.resetItems();
     this.getProducts(20);
-  }
-
-  getProducts(productsToFetch: number) {
-    let sort = this.selectedSortOption;
-    let limit = productsToFetch || 50;
-    let skip = this.productsCount;
-
-    this.isLoading = true;
-
-    this._productsService.getProducts(sort, limit, skip).subscribe(
-      products => {
-        let productsFetchedCount = products.length;
-
-        if (productsFetchedCount === limit) {
-          this.addProductsToItems(products);
-          this.insertAdsIntoItems();
-          console.log('current products count:', this.productsCount);
-        }
-        else if (productsFetchedCount < limit) {
-          this.addProductsToItems(products);
-          this.insertAdsIntoItems();
-          console.log('current products count:', this.productsCount);
-          this.isEndOfCatalogue = true;
-        } else {
-          console.log('end of catalogue');
-          this.isEndOfCatalogue = true;
-        }
-        this.isLoading = false;
-      },
-      error => {
-        this.isLoading = false;
-        this.error = 'Error connecting to server.';
-      });
   }
 
   insertAdsIntoItems() {
     let multiplesOfTwenty = Math.floor(this.productsCount / 20);
-    console.log('products count', this.productsCount);
-    console.log('multiplesOfTwenty', multiplesOfTwenty);
+
     for (let i = 0; i < multiplesOfTwenty; i++) {
-      // Insert Ad at every 20th position if not already there
       let index = (i + 1) * 20;
       if (!this.isAd(this.items[index])) {
         this.items.splice(index, 0, this.createAd());
@@ -105,8 +75,9 @@ export class XteamAppComponent {
     this.items = Array.prototype.concat(this.items, products);
   }
 
-  createAd() {
-    return { url: 'http://localhost:8000/ad/?r=' + Math.floor(Math.random() * 1000) };
+  createAd(): Ad {
+    // should be moved to own service in production app
+    return new Ad();
   }
 
   loadMoreProducts() {
@@ -114,6 +85,39 @@ export class XteamAppComponent {
   }
 
   isAd(item: Object) {
+    // fine for demo purposes, should be done differently in larger app  
     return (item && item.hasOwnProperty('url'));
+  }
+
+  getProducts(productsToFetch: number) {
+    if (!this.isEndOfCatalogue) {
+      let sort = this.selectedSortOption;
+      let limit = productsToFetch || 50;
+      let skip = this.productsCount;
+
+      this.isLoading = true;
+
+      this._productsService.getProducts(sort, limit, skip).subscribe(
+        products => {
+          let productsFetchedCount = products.length;
+
+          if (productsFetchedCount > 0) {
+            this.addProductsToItems(products);
+            this.insertAdsIntoItems();
+            console.log('current products count:', this.productsCount);
+          }
+
+          if (productsFetchedCount < limit) {
+            console.log('end of catalogue');
+            this.isEndOfCatalogue = true;
+          }
+
+          this.isLoading = false;
+        },
+        error => {
+          this.isLoading = false;
+          this.error = 'Error connecting to server.';
+        });
+    }
   }
 }

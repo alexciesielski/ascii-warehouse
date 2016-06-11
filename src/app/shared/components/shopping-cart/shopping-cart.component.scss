@@ -10,10 +10,12 @@
     border: 1px solid lightgray;
     border-radius: .3rem;
     padding: .5rem;
-    
+    hr {
+        margin-left: -1rem;
+    }
     .shopping-cart-header {
         width: 100%;
-        margin: .25rem .5rem 0;
+        margin: .25rem .5rem;
         button {
             position: absolute;
             top: .75rem;
@@ -26,7 +28,6 @@
     .shopping-cart-list {
         display: flex;
         flex-flow: row wrap;
-        justify-content: space-around;
         overflow-y: auto;
         max-height: 60vh;
     }

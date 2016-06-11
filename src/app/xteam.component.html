@@ -15,18 +15,14 @@
     <header>
       <h1>{{title}}</h1>
 
-      <p>Here you're sure to find a bargain on some of the finest ascii available to purchase. Be sure to peruse our selection
-        of ascii faces in an exciting range of sizes and prices.</p>
-      <!--
-    <p>But first, a word from our sponsors:</p>
-    <app-ad [src]="randomAd.url"></app-ad>
-    -->
+      <p>Here you're sure to find a bargain on some of the finest Ascii available to purchase.</p>
+      <p>Be sure to peruse our selection of Ascii faces in an exciting range of sizes and prices.</p>
 
     </header>
   </div>
 
   <section class="form-inline bg-faded options-bar">
-    <label for="sortSelect">Sort</label>
+    <label for="sortSelect">Sort by</label>
     <select class="form-control" id="sortSelect" [(ngModel)]="selectedSortOption">
         <option *ngFor="let sortOption of sortOptions" [value]="sortOption">{{sortOption}}</option>
       </select>
@@ -45,10 +41,12 @@
       </div>
 
       <!-- Loading animation -->
-      <app-loading *ngIf="isLoading"></app-loading>
+      <div class="alert alert-info text-xs-center" role="alert" *ngIf="isLoading">
+        <i class="text-primary fa fa-spin fa-circle-o-notch" aria-hidden="true"></i>
+      </div>
 
       <!-- End of catalogue -->
-      <div class="container-fluid text-xs-center" *ngIf="isEndOfCatalogue">
+      <div class="alert alert-info text-xs-center" role="alert" *ngIf="isEndOfCatalogue">
         ~ end of catalogue ~
       </div>
 

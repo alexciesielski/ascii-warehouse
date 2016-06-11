@@ -10,7 +10,6 @@ export { ProductComponent } from './components/product/product.component';
 export { AdComponent } from './components/ad/ad.component';
 export { ProductListComponent } from './components/product-list/product-list.component';
 export { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
-export { LoadingComponent } from './components/loading/loading.component';
 
 /* Directives */
 export { ScrollSpy } from './scroll-spy.directive';
