@@ -22,22 +22,24 @@
   </div>
 
   <section class="form-inline bg-faded options-bar">
-    <label for="sortSelect">Sort by</label>
-    <select class="form-control" id="sortSelect" [(ngModel)]="selectedSortOption">
+    <div class="container" style="margin: 0; padding: 0">
+      <label for="sortSelect">Sort by</label>
+      <select class="form-control" id="sortSelect" [(ngModel)]="selectedSortOption">
         <option *ngFor="let sortOption of sortOptions" [value]="sortOption">{{sortOption}}</option>
       </select>
-    <button class="btn btn-secondary" (click)="applySort()">Apply</button>
+      <button class="btn btn-secondary" (click)="applySort()">Apply</button>
+    </div>
   </section>
 
   <div class="container">
     <section class="products">
 
       <!-- Product List with Ads at every 20th position -->
-      <app-product-list [items]="items" (preload)="loadMoreProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
+      <app-product-list #productList (scrolledNearBottom)="preloadProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
 
       <!-- Load more products button -->
-      <div class="container-fluid text-xs-center" *ngIf="!isLoading && !isEndOfCatalogue && !error">
-        <button class="btn btn-secondary" (click)="loadMoreProducts()">Load more</button>
+      <div class="alert alert-info text-xs-center" *ngIf="!isLoading && !isEndOfCatalogue && !error">
+        <button class="btn btn-secondary" (click)="preloadProducts(true)">Show more</button>
       </div>
 
       <!-- Loading animation -->
@@ -56,7 +58,7 @@
           <strong>{{ error }}</strong>
         </div>
         <div>
-          <button class="btn btn-secondary" (click)="loadMoreProducts()">Retry</button>
+          <button class="btn btn-secondary" (click)="preloadProducts(true)">Retry</button>
         </div>
       </div>
 

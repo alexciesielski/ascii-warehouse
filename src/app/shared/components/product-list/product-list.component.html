@@ -1,7 +1,7 @@
 <div class="container" #listContainer myScrollspy (scrolled)="onScroll($event)">
 
   <div class="flex-grid">
-    <div class="flex-grid-item text-xs-center" *ngFor="let item of items; let i = index" [ngSwitch]="isProduct(item)">
+    <div class="flex-grid-item text-xs-center" *ngFor="let item of items" [ngSwitch]="isProduct(item)">
 
       <!-- Product -->
       <app-product [size]="item.size" *ngSwitchWhen="true">
