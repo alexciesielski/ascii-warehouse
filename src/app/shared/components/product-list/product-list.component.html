@@ -1,7 +1,7 @@
 <div class="container" #listContainer myScrollspy (scrolled)="onScroll($event)">
 
   <div class="flex-grid">
-    <div class="flex-grid-item text-xs-center" *ngFor="let item of items; let i = index" [ngSwitch]="isProduct(item)">
+    <div class="flex-grid-item text-xs-center" *ngFor="let item of items" [ngSwitch]="isProduct(item)">
 
       <!-- Product -->
       <app-product [size]="item.size" *ngSwitchWhen="true">
@@ -9,7 +9,6 @@
         <product-face>{{ item.face }}</product-face>
         <product-price>{{ item.price | formatCurrency:"$" }}</product-price>
         <product-buttons>
-          Index: {{i+1}}
           <a class="btn btn-block btn-primary" (click)="addToCart(item)">Add to cart</a>
         </product-buttons>
       </app-product>
