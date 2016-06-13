@@ -54,7 +54,6 @@ export class XteamAppComponent implements OnInit {
   }
 
   applySort() {
-    console.log(this.selectedSortOption);
     this.reset();
     this.loadProducts(true, 20);
   }
