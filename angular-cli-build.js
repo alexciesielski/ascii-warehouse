@@ -13,7 +13,6 @@ module.exports = function(defaults) {
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
       'moment/moment.js',
-      'ng2-scrollspy/**/*.+(js|ts)',
       'bootstrap/dist/css/bootstrap.css'
     ]
   });

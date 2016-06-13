@@ -33,7 +33,7 @@ export class ProductListComponent {
   private isScrolledToBottom: boolean = false;
 
   private scrolledNearBottomPercentage: number = 90;
-  private scrolledToBottomPercentage: number = 99;
+  private scrolledToBottomPercentage: number = 100;
 
   constructor() { }
 

@@ -3,8 +3,7 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  'moment': 'vendor/moment/moment.js',
-  'ng2-scrollspy': 'vendor/ng2-scrollspy/index.ts'
+  'moment': 'vendor/moment/moment.js'
 };
 
 /** User packages configuration. */
