@@ -19,28 +19,35 @@ export class ProductListComponent {
 
   // list of products and ads (at every 20th position)
   private items: any[] = [];
+
+  // number of products in items array
   private productsCount: number = 0;
+
+  // used to optimize 'insertAds'
+  private previousProductsCount: number = 0;
 
   // list of products that are about to be displayed, when user scrolls to bottom
   private preloadedProducts: Product[] = [];
 
-
   private isScrolledNearBottom: boolean = false;
-  private scrolledNearBottomPercentage: number = 80;
+  private isScrolledToBottom: boolean = false;
+
+  private scrolledNearBottomPercentage: number = 90;
   private scrolledToBottomPercentage: number = 99;
 
   constructor() { }
 
   public addProducts(products: Product[], shouldShowProducts?: boolean) {
+    //console.log('add products', products.length);
     this.preloadedProducts = Array.prototype.concat(this.preloadedProducts, products);
-    this.insertAdsIntoItems();
+    //this.productsCount += products.length;
 
-    if (shouldShowProducts) {
+    if (shouldShowProducts || this.isScrolledToBottom) {
       this.showProducts();
     }
   }
 
-  public getProductsCount() {
+  public getProductsCount(): number {
     return this.productsCount;
   }
 
@@ -49,21 +56,33 @@ export class ProductListComponent {
     this.productsCount = 0;
   }
 
+  // -- private helper methods -- //
+
   private showProducts() {
-    this.productsCount += this.preloadedProducts.length;;
-    this.items = Array.prototype.concat(this.items, this.preloadedProducts);
-    this.preloadedProducts = [];
+    if (this.preloadedProducts.length > 0) {
+      this.previousProductsCount = this.productsCount;
+      this.productsCount += this.preloadedProducts.length;;
+      this.items = Array.prototype.concat(this.items, this.preloadedProducts);
+      this.preloadedProducts = [];
+      console.log('displaying ' + this.productsCount + ' products');
+    }
+    this.insertAdsIntoItems();
   }
 
   private insertAdsIntoItems() {
-    let multiplesOfTwenty = Math.floor(this.productsCount / 20);
+    let startInsertingAdsIndex = Math.floor(this.previousProductsCount / 20);
+    let stopInsertingAdsIndex = Math.floor(this.productsCount / 20);
 
-    for (let i = 0; i < multiplesOfTwenty; i++) {
+    for (let i = startInsertingAdsIndex; i < stopInsertingAdsIndex; i++) {
+
       let index = (i + 1) * 20;
+
       if (!this.isAd(this.items[index])) {
+        // Insert Ad at position: index
         this.items.splice(index, 0, new Ad());
         console.log('inserted ad at ' + index);
       }
+
     }
   }
 
@@ -79,15 +98,24 @@ export class ProductListComponent {
       this.isScrolledNearBottom = false;
     }
 
+    if(percentageScrolled < this.scrolledToBottomPercentage) {
+      this.isScrolledToBottom = false;
+    }
+
     // emit event only once (if not yet scrolled near bottom)
     if (this.isScrolledNearBottom === false && percentageScrolled > this.scrolledNearBottomPercentage) {
       this.isScrolledNearBottom = true;
-      this.scrolledNearBottom.emit(true);
+
+      // only preload products if none are available already
+      if (this.preloadedProducts.length === 0) {
+        this.scrolledNearBottom.emit(true);
+      }
     }
 
     if (this.isScrolledNearBottom && percentageScrolled >= this.scrolledToBottomPercentage) {
       //this.scrolledToBottom.emit(true);
       // Scrolled to bottom
+      this.isScrolledToBottom = true;
       this.showProducts();
     }
   }

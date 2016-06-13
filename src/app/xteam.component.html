@@ -35,11 +35,11 @@
     <section class="products">
 
       <!-- Product List with Ads at every 20th position -->
-      <app-product-list #productList (scrolledNearBottom)="preloadProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
+      <app-product-list #productList (scrolledNearBottom)="loadProducts()" (addedToCart)="onAddedToCart($event)"></app-product-list>
 
       <!-- Load more products button -->
       <div class="alert alert-info text-xs-center" *ngIf="!isLoading && !isEndOfCatalogue && !error">
-        <button class="btn btn-secondary" (click)="preloadProducts(true)">Show more</button>
+        <button class="btn btn-secondary" (click)="loadProducts(true)">Show more</button>
       </div>
 
       <!-- Loading animation -->
@@ -53,12 +53,12 @@
       </div>
 
       <!-- Error + Retry -->
-      <div class="alert alert-danger text-xs-center" role="alert" *ngIf="error">
+      <div class="alert alert-danger text-xs-center" role="alert" *ngIf="error && !isLoading">
         <div>
           <strong>{{ error }}</strong>
         </div>
         <div>
-          <button class="btn btn-secondary" (click)="preloadProducts(true)">Retry</button>
+          <button class="btn btn-secondary" (click)="loadProducts(true)">Retry</button>
         </div>
       </div>
 

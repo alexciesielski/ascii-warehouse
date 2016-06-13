@@ -15,21 +15,27 @@ export class ProductService {
   private API = 'http://localhost:8000/api/';
   private productsUrl = this.API + 'products';
 
-  private shoppingCart: Product[] = [];
-
   constructor(
     private _http: Http
   ) { }
 
+  /**
+   * Returns a list of products
+   * sort: sort by SORT_OPTIONS
+   * limit: how many products to fetch
+   * skip: how many products to skip (pagination0)
+   */
   getProducts(sort?: string, limit?: number, skip?: number): Observable<Product[]> {
     let query = '?sort=' + sort || ProductService.SORT_OPTIONS[0];
 
     if (limit) {
       query += '&limit=' + limit;
-      if (skip) {
-        query += '&skip=' + skip;
-      }
     }
+    
+    if (skip) {
+      query += '&skip=' + skip;
+    }
+
     return this.get(this.productsUrl + query);
   }
 
@@ -40,10 +46,12 @@ export class ProductService {
       .catch(this.handleError);
   }
 
+  /**
+   * Converts new-line delimited JSON objects into a JSON array,
+   * by wrapping the JSON string in '[]' brackets and replacing new-lines with commas
+   * (except for the last).
+   */
   private extractData(res: Response) {
-    // Since incoming data is new-line delimited JSON objects
-    // convert first into JSON array by wrapping with '[]'
-    // and replacing newline with commas (except for the last)
     let rawJsonObjects = res.text().split('\n');
 
     let rawJson = '[';

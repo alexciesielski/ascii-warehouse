@@ -33,10 +33,14 @@ export class XteamAppComponent implements OnInit {
     this.sortOptions = ProductService.SORT_OPTIONS;
     this.selectedSortOption = this.sortOptions[0];
 
-    this.preloadProducts(true, 20);
+    this.loadProducts(true, 20);
   }
 
-  resetList() {
+  reset() {
+    this.isLoading = false;
+    this.isEndOfCatalogue = false;
+    this.preloadedProducts = [];
+    this.error = null;
     this.productList.resetItems();
   }
 
@@ -51,56 +55,50 @@ export class XteamAppComponent implements OnInit {
 
   applySort() {
     console.log(this.selectedSortOption);
-    this.resetList();
-    this.preloadProducts(true, 20);
+    this.reset();
+    this.loadProducts(true, 20);
   }
 
-  showPreloadedProducts() {
-    console.log('show preloaded products');
-    this.productList.addProducts(this.preloadedProducts);
-    this.preloadedProducts = [];
-  }
-
-
-  // todo:
-  // refactor displaying preloaded products into product list
-  // this component only has to know when to preload products
-  // not when to show them
-  preloadProducts(shouldShowProducts: boolean, productsToFetch?: number) {
-    console.log('preloadProducts(showProducts: ', + !!shouldShowProducts + ', limit: ' + productsToFetch);
+  /**
+   * Preloads the products. Called when ProductListComponent emits 'scrolledNearBottom' event.
+   * shouldShowProducts: if false, products will be displayed after user has scrolled to bottom of page
+   * productsToFetch: optional number of products to fetch from API
+   */
+  loadProducts(shouldShowProducts: boolean, productsToFetch?: number) {
     if (!this.isEndOfCatalogue) {
 
-      if (this.preloadedProducts.length > 0) {
-        console.log(this.preloadedProducts.length);
-        this.showPreloadedProducts();
-      } else {
-        let sort = this.selectedSortOption;
-        let limit = productsToFetch || 50;
-        let skip = 0;
-        if (this.productList) skip = this.productList.getProductsCount(); // productList at OnInit not yet initialized
+      let sort = this.selectedSortOption;
+      let limit = productsToFetch || 50;
+      let skip = 0;
 
-        this.isLoading = true;
-        this._productsService.getProducts(sort, limit, skip).subscribe(
-          products => {
-            let productsFetchedCount = products.length;
-
-            if (productsFetchedCount > 0) {
-              this.productList.addProducts(products, shouldShowProducts);
-              console.log('current products count:', this.productList.getProductsCount());
-            }
-
-            if (productsFetchedCount < limit) {
-              this.isEndOfCatalogue = true;
-              console.log('end of catalogue');
-            }
-
-            this.isLoading = false;
-          },
-          error => {
-            this.isLoading = false;
-            this.error = 'Error connecting to server.';
-          });
+      if (this.productList) { // productList not yet initialized at OnInit
+        skip = this.productList.getProductsCount(); 
       }
+
+      this.isLoading = true;
+      this._productsService.getProducts(sort, limit, skip).subscribe(
+
+        products => {
+
+          let productsFetchedCount = products.length;
+
+          if (productsFetchedCount > 0) {
+            this.productList.addProducts(products, shouldShowProducts);
+          }
+
+          if (productsFetchedCount < limit) {
+            this.isEndOfCatalogue = true;
+            console.log('end of catalogue');
+          }
+
+          this.isLoading = false;
+        },
+
+        error => {
+          this.isLoading = false;
+          this.error = 'Error connecting to server.';
+        });
     }
+
   }
 }

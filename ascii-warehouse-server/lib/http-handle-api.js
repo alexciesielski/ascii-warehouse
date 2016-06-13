@@ -1,7 +1,7 @@
 var faces = require('cool-ascii-faces').faces;
 var getQueryParams = require('./get-query-params');
 
-var max = getRandomInRange(111, 777)
+var max = getRandomInRange(111, 333)
 
 function getRandomString() {
     return (Math.random()).toString(36).substr(2);
@@ -26,19 +26,15 @@ function createRandomItem(i, sort) {
         obj.id = i + '-' + getRandomString();
     }
     else if (sort === 'size') {
-        console.log('Min size', min_size);
-        console.log('i', i);
-        console.log('i * 0.05', i * 0.05);
         var floor = Math.floor(i * 0.05);
-        console.log('floor', floor);
         obj.size = Math.min(42, min_size + floor);
-        console.log('obj size', obj.size);
     }
     else if (sort === 'price') {
         obj.price = Math.min(1000, Math.floor(i * 0.1) + 1);
     }
 
     //console.log(obj);
+    console.log(max);
     return obj;
 }
 
