@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Ad, Product, ProductService, ProductComponent, AdComponent } from '../../index';
 
-import { ScrollSpy } from '../../scroll-spy.directive'; // import separately to avoid error "Unexpected directive value 'undefined'" 
-import { FormatTimestamp } from '../../format-timestamp.pipe'; // same here
-import { FormatCurrency } from '../../format-currency.pipe'; // same here
+import { ScrollSpy } from '../../directives/scroll-spy.directive'; // import separately to avoid error "Unexpected directive value 'undefined'" 
+import { FormatTimestamp } from '../../pipes/format-timestamp.pipe'; // same here
+import { FormatCurrency } from '../../pipes/format-currency.pipe'; // same here
 
 @Component({
   moduleId: module.id,

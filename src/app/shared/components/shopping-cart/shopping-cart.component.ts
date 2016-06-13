@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, DoCheck } from '@angular/core';
-import { Product } from '../../product.model';
-import { FormatCurrency } from '../../format-currency.pipe';
+import { Product } from '../../models/product.model';
+import { FormatCurrency } from '../../pipes/format-currency.pipe';
 
 @Component({
   moduleId: module.id,
