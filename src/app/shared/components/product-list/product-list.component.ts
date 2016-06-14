@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Ad, Product, ProductService, ProductComponent, AdComponent } from '../../index';
 
 import { ScrollSpy } from '../../directives/scroll-spy.directive'; // import separately to avoid error "Unexpected directive value 'undefined'" 
@@ -37,13 +37,17 @@ export class ProductListComponent {
 
   constructor() { }
 
+  /**
+   * Adds products to preloadedProducts[] 
+   * and displays them immediately if shouldShowProducts or user has scrolled to bottom. 
+   */
   public addProducts(products: Product[], shouldShowProducts?: boolean) {
     //console.log('add products', products.length);
     this.preloadedProducts = Array.prototype.concat(this.preloadedProducts, products);
     //this.productsCount += products.length;
 
     if (shouldShowProducts || this.isScrolledToBottom) {
-      this.showProducts();
+      this.displayProductsWithAds();
     }
   }
 
@@ -52,13 +56,19 @@ export class ProductListComponent {
   }
 
   public resetItems() {
+    this.preloadedProducts = [];
     this.items = [];
+    this.previousProductsCount = 0;
     this.productsCount = 0;
   }
 
   // -- private helper methods -- //
 
-  private showProducts() {
+  /**
+   * Adds products from preloadedProducts[] to items[] (if any)
+   * and inserts ads into items[] afterwards.
+   */
+  private displayProductsWithAds() {
     if (this.preloadedProducts.length > 0) {
       this.previousProductsCount = this.productsCount;
       this.productsCount += this.preloadedProducts.length;;
@@ -69,6 +79,9 @@ export class ProductListComponent {
     this.insertAdsIntoItems();
   }
 
+  /**
+   * Inserts ads at every 20th position.
+   */
   private insertAdsIntoItems() {
     let startInsertingAdsIndex = Math.floor(this.previousProductsCount / 20);
     let stopInsertingAdsIndex = Math.floor(this.productsCount / 20);
@@ -87,7 +100,6 @@ export class ProductListComponent {
   }
 
   private addToCart(product) {
-    //console.log('Added to cart: ' + product.face);
     this.addedToCart.emit(product);
   }
 
@@ -98,30 +110,25 @@ export class ProductListComponent {
       this.isScrolledNearBottom = false;
     }
 
-    if(percentageScrolled < this.scrolledToBottomPercentage) {
+    if (percentageScrolled < this.scrolledToBottomPercentage) {
       this.isScrolledToBottom = false;
     }
 
-    // emit event only once (if not yet scrolled near bottom)
+    // Scrolled near bottom
     if (this.isScrolledNearBottom === false && percentageScrolled > this.scrolledNearBottomPercentage) {
       this.isScrolledNearBottom = true;
 
-      // only preload products if none are available already
+      // only preload products if none are available yet
       if (this.preloadedProducts.length === 0) {
         this.scrolledNearBottom.emit(true);
       }
     }
 
+    // Scrolled to bottom
     if (this.isScrolledNearBottom && percentageScrolled >= this.scrolledToBottomPercentage) {
-      //this.scrolledToBottom.emit(true);
-      // Scrolled to bottom
       this.isScrolledToBottom = true;
-      this.showProducts();
+      this.displayProductsWithAds();
     }
-  }
-
-  private isProduct(item: any) {
-    return (item && item.hasOwnProperty('face'));
   }
 
   private isAd(item: Object) {
@@ -129,4 +136,7 @@ export class ProductListComponent {
     return (item && item.hasOwnProperty('url'));
   }
 
+  private isProduct(item: Object) {  
+    return (item && item.hasOwnProperty('face'));
+  }
 }

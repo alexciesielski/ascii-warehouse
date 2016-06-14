@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Ad, Product, AdComponent, ProductListComponent, ShoppingCartComponent, ProductService } from './shared/index';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Ad, Product, ProductListComponent, ShoppingCartComponent, ProductService } from './shared/index';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'xteam.component.html',
   styleUrls: ['xteam.component.css'],
   providers: [ProductService],
-  directives: [ProductListComponent, AdComponent, ShoppingCartComponent]
+  directives: [ProductListComponent, ShoppingCartComponent]
 })
 export class XteamAppComponent implements OnInit {
   @ViewChild('productList') productList: ProductListComponent;
@@ -19,8 +19,6 @@ export class XteamAppComponent implements OnInit {
 
   isLoading = false;
   isEndOfCatalogue = false;
-
-  preloadedProducts: Product[] = [];
 
   sortOptions: string[] = [];
   selectedSortOption: string;
@@ -39,7 +37,6 @@ export class XteamAppComponent implements OnInit {
   reset() {
     this.isLoading = false;
     this.isEndOfCatalogue = false;
-    this.preloadedProducts = [];
     this.error = null;
     this.productList.resetItems();
   }

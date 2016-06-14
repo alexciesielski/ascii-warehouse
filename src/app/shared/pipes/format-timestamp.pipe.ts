@@ -6,7 +6,11 @@ import * as moment from 'moment';
 })
 export class FormatTimestamp implements PipeTransform {
 
-  // Input: "Tue May 31 2016 15:07:06 GMT+0200 (Central European Daylight Time)"
+  /** 
+   * Formats an ISO-timestamp (Tue May 31 2016 15:07:06 GMT+0200 (Central European Daylight Time))
+   * Outputs 'x days ago' if timestamp is less then 7 days ago
+   * or a readable date format if older.  
+   */
   transform(value: any, args?: any): string {
     let formatted = moment(value, 'ddd MMMM DD YYYY HH:mm:ss ZZ');
 

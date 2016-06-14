@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, DoCheck } from '@angular/core';
+import { Component } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { FormatCurrency } from '../../pipes/format-currency.pipe';
 
@@ -9,22 +9,13 @@ import { FormatCurrency } from '../../pipes/format-currency.pipe';
   styleUrls: ['shopping-cart.component.css'],
   pipes: [FormatCurrency]
 })
-export class ShoppingCartComponent implements OnInit, DoCheck {
-  @Input('products') shoppingCart: Product[] = [];
-  previousShoppingCartCount: number = 0;
-  total: number = 0;
-  isHidden = true;
+export class ShoppingCartComponent {
+  private shoppingCart: Product[] = [];
+  private previousShoppingCartCount: number = 0;
+  private total: number = 0;
+  private isHidden = true;
 
   constructor() { }
-
-  ngOnInit() { }
-
-  ngDoCheck() {
-    if (this.shoppingCart.length > this.previousShoppingCartCount) {
-      this.previousShoppingCartCount = this.shoppingCart.length;
-      this.calculateTotal();
-    }
-  }
 
   public addProduct(product) {
     this.shoppingCart.push(product);
@@ -64,5 +55,4 @@ export class ShoppingCartComponent implements OnInit, DoCheck {
     }
     this.total = total;
   }
-
 }

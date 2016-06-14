@@ -13,6 +13,10 @@ export class ScrollSpy {
 
   constructor() { }
 
+  /**
+   * Calculates the scroll position in the window
+   * and emits as (scrolled) event    
+   */
   onScroll() {
     let doc = document.documentElement;
     let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
